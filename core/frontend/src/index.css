@@ -1,0 +1,168 @@
+/* Estiliza a barra de rolagem */
+::-webkit-scrollbar {
+  width: 10px; 
+  background-color: transparent;
+  border-radius: 25px;
+  
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #7a7a7a; 
+  border-radius: 20px; 
+}
+
+
+body {
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+  overflow: hidden;
+}
+
+
+
+.title {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #fefefe; /* Cor do texto */
+  display: grid;
+  position:fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 3rem;
+}
+
+
+.header {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: fixed;
+  top: -50px;
+  right: 30px;
+  display: grid; /* Usa CSS Grid */
+  grid-template-columns: auto auto; /* Define duas colunas automáticas */
+  gap: 10px; /* Espaço entre as colunas */
+  align-items: center; /* Alinha os itens ao longo do eixo transversal */
+  padding: 90px 0px; /* Espaçamento interno do header */
+}
+
+
+
+.header-item {
+  font-size: 16px; /* Tamanho da fonte */
+  color: #ffffff; /* Cor do texto */
+  cursor: pointer; /* Muda o cursor para indicar que o item é clicável */
+  transition: background-color 0.3s ease;
+}
+
+
+.navbar {
+  position: absolute;
+  max-width: 600px;
+  width: 100%;
+  top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  background-color: transparent; 
+  box-shadow: 0;
+  padding: 0;
+  border: none;
+}
+
+
+.navbar-form {
+  border: none;
+  display: flex;
+  width: 100%;
+  margin: -20px;
+  inline-size: 120%;
+  justify-content: left;
+}
+
+
+.navbar-input {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: rgb(255, 255, 255); /* Cor do texto */
+  padding: 10px;
+  border: none;
+  border-radius: 25px 0 0 25px; /* Bordas arredondadas apenas em um lado */
+  flex: 1;
+  outline: none;
+  background-color:rgb(47, 45, 45);
+  padding-left: 4%;
+}
+
+.navbar-button {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 10px 20px;
+  border: none;
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  border-radius: 0 25px 25px 0; /* Bordas arredondadas apenas em um lado */
+  cursor: pointer;
+}
+
+.navbar-button:hover {
+  background-color: #000000;
+}
+
+
+.reminder-table {
+  display: table;
+  margin-top: 230px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 20px;
+  color:hsl(53, 47%, 96%);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 16px; /* Tamanho da fonte */
+  background-color:rgb(47, 45, 45);
+  white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+  padding: 10px; /* Espaçamento interno */
+}
+
+
+.reminder-table tbody {
+  display: block;
+  max-height: 370px;
+  overflow-y: auto; 
+  overflow-x: hidden;
+  width: 115;
+  padding: 10px;
+}
+
+.reminder-table tbody td {
+  padding: 10px;
+  text-align: left;
+}
+
+
+.reminder-table thead tr {
+  display: table; 
+  text-align: center;
+  width: 100%; 
+}
+
+
+.footer {
+  display: block;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: #fefefe;
+  width: 100%;
+  text-align: center; 
+  padding: 40px; 
+  position: relative; 
+}
+
+
+.response {
+  margin-top: 10px;
+}
+
