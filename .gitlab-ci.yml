@@ -1,0 +1,8 @@
+stages:
+  - test
+
+test_job:
+  stage: test
+  script:
+    - echo "Rodando testes..."
+    - # Adicione aqui seus comandos de teste, como `npm test` ou `pytest`.
