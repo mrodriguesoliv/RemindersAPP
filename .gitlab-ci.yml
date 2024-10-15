@@ -1,8 +1,27 @@
-stages:
-  - test
+image: python:latest
 
-test_job:
-  stage: test
+variables:
+  PIP_CACHE_DIR: "c:/users/mrodr/appdata/local/pip/cache"
+
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  - python --version ; pip --version
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+test:
   script:
-    - echo "Rodando testes..."
-    - # Adicione aqui seus comandos de teste, como `npm test` ou `pytest`.
+    - pip install ruff tox
+    - pip install --editable ".[test]"
+    - tox -e py,ruff
+    
+deploy:
+  stage: deploy
+  script:
+    - docker-compose up -d
+    - echo "Deploy Concluído!"
+  environment: production

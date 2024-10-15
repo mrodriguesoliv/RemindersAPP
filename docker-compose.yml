@@ -1,4 +1,3 @@
-version: '3'
 
 services:
   postgres:
@@ -12,13 +11,24 @@ services:
     volumes:
       - polls_pg_data:/bitnami/postgresql
     
-  web:
-    build: .
-    volumes:
-      - .:/alan
-    ports:
-      - '4000:4000'
+  backend:
+     build:
+      context: ./
+     volumes:
+      - ./:/remindersapp/backend
+     ports:
       - '8000:8000'
+
+  frontend:
+    build:
+      context: ./core/frontend
+    volumes:
+      - ./core/frontend:/remindersapp/frontend
+    ports:
+      - '3000:3000' 
+
+
+
 
 volumes:
   polls_pg_data:
