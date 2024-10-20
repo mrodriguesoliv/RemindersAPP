@@ -2,7 +2,7 @@ import './index.css';
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Container, Spinner, Alert } from 'react-bootstrap';
+import {Container, Spinner, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const ReminderTable = () => {
@@ -10,7 +10,7 @@ const ReminderTable = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [inputValue, setInputValue] = useState('');
-    const [responseData, setResponseData] = useState('');
+    const [responseData] = useState('');
     const [username, setUsername] = useState('');
 
     const fetchReminders = async () => {

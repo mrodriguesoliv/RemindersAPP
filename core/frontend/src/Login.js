@@ -9,7 +9,6 @@ import {
   MDBCard,
   MDBCardBody,
   MDBInput,
-  MDBIcon
 } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
@@ -43,8 +42,7 @@ function App() {
     } catch (err) {
       console.error('Erro ao fazer login:', err);
       setError("Credenciais Inválidas!");
-
-
+      setToken(token);
       // Limpar os valores dos campos
       setUsername('');
       setPassword('');
