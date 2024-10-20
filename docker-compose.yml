@@ -27,9 +27,6 @@ services:
     ports:
       - '3000:3000' 
 
-
-
-
 volumes:
   polls_pg_data:
   polls_redis_data:

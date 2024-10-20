@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-ndmc=ry@z#7#hp))$0c!d9(rgqdh%#adf-ue*nia2whr^as*&#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'backend']
+ALLOWED_HOSTS = ['localhost', 'backend', 'frontend', '34.95.220.114']
 
 
 # Application definition
@@ -104,8 +104,12 @@ WSGI_APPLICATION = 'AlanAI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'geN4f1tSdhMePbgd',
+        'HOST': 'fretfully-refreshing-iguanodon.data-1.use1.tembo.io',
+        'PORT': '5432',
     }
 }
 
