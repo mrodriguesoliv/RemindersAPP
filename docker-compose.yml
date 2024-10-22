@@ -1,0 +1,43 @@
+version: '3'
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+    volumes:
+      - api_remindersapp_data:/bitnami/postgresql
+    
+  backend:
+    build:
+      context: ./  
+    volumes:
+      - ./:/remindersapp/backend
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=${POSTGRES_PORT}
+
+  frontend:
+    build:
+      context: ./core/frontend
+    volumes:
+      - ./core/build:/remindersapp/frontend/build
+    ports:
+      - '3000:3000' 
+    depends_on:
+      - backend
+
+volumes:
+  api_remindersapp_data: {}
