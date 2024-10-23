@@ -19,7 +19,7 @@ const ReminderTable = () => {
             setReminders(response.data);
             setLoading(false);
         } catch (error) {
-            console.error('Erro ao buscar dados:', error);
+            console.error('Erro ao buscar dados:', error.message);
             setError(error);
             setLoading(false);
         }
