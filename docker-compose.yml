@@ -33,7 +33,7 @@ services:
     build:
       context: ./core/frontend
     volumes:
-      - ./core/build:/remindersapp/frontend/build
+      - ./core/frontend/build:/remindersapp/frontend/build
     ports:
       - '3000:3000' 
     depends_on:
