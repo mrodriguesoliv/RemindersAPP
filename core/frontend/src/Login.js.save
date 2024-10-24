@@ -29,10 +29,7 @@ function App() {
     try {
 
       const apiUrl = process.env.REACT_APP_API_URL;
-      console.log("API URL:", apiUrl); 
-
-
-      const response = await axios.post(`${apiUrl}/v1.0/api/token/`, { username, password }); // URL da sua view Django
+      const response = await axios.post{'{$apiUrl}', { username, password }); // URL da sua view Django
       console.log('Login bem-sucedido', response.data);
       
       

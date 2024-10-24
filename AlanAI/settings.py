@@ -19,6 +19,8 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
+API_URL = os.getenv('API_URL', 'http://34.39.144.24:8000') 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,7 +34,7 @@ SECRET_KEY = 'django-insecure-ndmc=ry@z#7#hp))$0c!d9(rgqdh%#adf-ue*nia2whr^as*&#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'backend', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', 'backend', '127.0.0.1', '34.39.144.24']
 
 
 # Application definition
@@ -65,6 +67,8 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://34.39.144.24:3000",
+    "http://34.39.144.24:8000",
 ]
 
 OAUTH2_PROVIDER = {

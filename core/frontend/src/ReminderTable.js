@@ -15,7 +15,11 @@ const ReminderTable = () => {
 
     const fetchReminders = async () => {
         try {
-            const response = await axios.get('/reminders.app/');
+
+            const apiUrl = process.env.REACT_APP_API_URL;
+	    console.log("API_URL", apiUrl);
+              
+            const response = await axios.get(`${apiUrl}/reminders.app/`);
             setReminders(response.data);
             setLoading(false);
         } catch (error) {
@@ -42,7 +46,11 @@ const ReminderTable = () => {
         const token = localStorage.getItem('accessToken');
 
         try {
-            await axios.post('/v1.0/conversation/', { message: inputValue, conversation_id: "1" }, {
+
+            const apiUrl = process.env.REACT_APP_API_URL;
+	    console.log("API_URL", apiUrl)
+
+            await axios.post(`${apiUrl}/v1.0/conversation/`, { message: inputValue, conversation_id: "1" }, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 }
@@ -65,7 +73,11 @@ const ReminderTable = () => {
         console.log('Evento clicado:', reminder.event);
     
         try {
-            const response = await axios.post('/v1.0/conversation/detail', { 
+
+     	    const apiUrl = process.env.REACT_APP_API_URL;
+	    console.log("API_URL", apiUrl)
+
+            const response = await axios.post(`${apiUrl}/v1.0/conversation/detail`, { 
                 conversation_id: "1",
                 message: `Me de um texto completo falando sobre o seguinte tema: ${reminder.event}`,
                 
