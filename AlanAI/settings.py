@@ -19,7 +19,7 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-API_URL = os.getenv('API_URL', 'http://34.39.144.24:8000') 
+REACT_APP_API_URL = os.getenv('REACT_APP_API_URL', 'http://127.0.0.1:8000')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,6 +67,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
     "http://34.39.144.24:3000",
     "http://34.39.144.24:8000",
 ]
