@@ -52,6 +52,26 @@ const Login = () => {
   }, []);
 
 
+
+  // Função para tratar o evento de tecla pressionada
+  const handleKeyPressSignUp = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Previne o comportamento padrão do formulário
+      handleSignUp(e); // Chama a função de login
+    }
+  };
+  
+
+
+  // Função para tratar o evento de tecla pressionada
+  const handleKeyPressSignIn= (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Previne o comportamento padrão do formulário
+      handleSignIn(e); // Chama a função de login
+    }
+  };
+
+
   const handleSignUp = async (e) => {
     e.preventDefault();
 
@@ -108,15 +128,14 @@ const Login = () => {
           type="text" 
           className="input" 
           placeholder="username" 
-          onChange={(e) => {
-            setUsername(e.target.value);
-            console.log('Username:', e.target.value);
-          }}/>
+          onChange={(e) => { setUsername(e.target.value);}}
+          /> 
           <input 
           type="password" 
           className="input" 
           placeholder="password" 
-          onChange={(e) => setPassword(e.target.value)}/>
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyUp={handleKeyPressSignUp}/>
         </div>
         <button className="submit-btn" onClick={handleSignUp}>Sign up</button>
       </div>
@@ -137,6 +156,7 @@ const Login = () => {
               placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)} // Corrigindo o valor do input
+              onKeyUp={handleKeyPressSignIn}  
             />
           </div>
           <button className="submit-btn" onClick={handleSignIn}>Sign in</button>

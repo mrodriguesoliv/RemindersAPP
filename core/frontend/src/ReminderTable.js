@@ -17,6 +17,7 @@ const ReminderTable = () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
             console.log("API_URL", apiUrl);
+
             const response = await axios.get(`${apiUrl}/reminders.app/`);
             setReminders(response.data);
             setLoading(false);
@@ -24,12 +25,11 @@ const ReminderTable = () => {
             console.error('Erro ao buscar dados:', error.message);
             setError('Erro ao carregar lembretes. Tente novamente mais tarde.');
             setLoading(false);
-            
         }
     };
 
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate(); // Definindo o hook para redirecionamento
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
