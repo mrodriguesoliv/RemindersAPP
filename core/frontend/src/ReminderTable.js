@@ -3,7 +3,8 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Container, Spinner, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+
 
 const ReminderTable = () => {
     const [reminders, setReminders] = useState([]);
@@ -16,22 +17,57 @@ const ReminderTable = () => {
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
             console.log("API_URL", apiUrl);
-
             const response = await axios.get(`${apiUrl}/reminders.app/`);
             setReminders(response.data);
             setLoading(false);
         } catch (error) {
             console.error('Erro ao buscar dados:', error.message);
-            setError('Erro ao carregar lembretes. Tente novamente mais tarde.'); // Mensagem de erro amigável
+            setError('Erro ao carregar lembretes. Tente novamente mais tarde.');
             setLoading(false);
+            
         }
     };
 
+
+    const navigate = useNavigate(); 
+
     useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+
+        // Verifique se o token existe; caso contrário, redirecione para a página de login
+        if (!token) {
+            navigate('/reminders.login');
+            return;
+        }
+
+        const fetchReminders = async () => {
+            try {
+                const apiUrl = process.env.REACT_APP_API_URL;
+                console.log("API_URL", apiUrl);
+
+                const response = await axios.get(`${apiUrl}/reminders.app/`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                setReminders(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error.message);
+                setError('Erro ao carregar lembretes. Tente novamente mais tarde.');
+                setLoading(false);
+            }
+        };
+
         fetchReminders();
+
         const storedUsername = localStorage.getItem('username');
         setUsername(storedUsername || '');
-    }, []);
+    }, [navigate]);
+
+
+
+
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);

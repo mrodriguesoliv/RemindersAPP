@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate} from 'react-router-do
 import ReminderTable from './ReminderTable';
 import Login from './Login';
 
-function LoginForm() {
+function RemindersAPP() {
   return (
     <Router>
       <div className="App">
@@ -18,4 +18,4 @@ function LoginForm() {
   );
 }
 
-export default LoginForm;
+export default RemindersAPP;

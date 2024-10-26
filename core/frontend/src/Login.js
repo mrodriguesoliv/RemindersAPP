@@ -51,7 +51,34 @@ const Login = () => {
     };
   }, []);
 
-  const handleLogin = async (e) => {
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    if (!username || !password) {
+        setError('Username and password are required.');
+        return;
+    }
+
+    console.log('Signing up with:', { username, password }); 
+
+    try {
+        // Primeira requisição para o endpoint de signup
+        await axios.post('http://127.0.0.1:8000/v1.0/signup/', {
+            username: username,
+            password: password,
+        });
+
+        // Chama o handleSignIn automaticamente após o signup bem-sucedido
+        await handleSignIn(e);
+    } catch (error) {
+        setError('Signup failed. Please check your credentials.');
+        console.error('Signup failed', error);  
+    }
+};
+
+
+  const handleSignIn = async (e) => {
     e.preventDefault();
 
     try {
@@ -59,7 +86,6 @@ const Login = () => {
         username: username,
         password: password,
       });
-
       
       const token = response.data.token; // Altere 'accessToken' se necessário
       setToken(token);
@@ -72,19 +98,31 @@ const Login = () => {
     }
   };
 
+  
   return (
     <div className="form-structor">
       <div className="signup">
         <h2 className="form-title" id="signup" ref={signupBtnRef}><span>or</span>Sign up</h2>
         <div className="form-holder">
-          <input type="text" className="input" placeholder="username" />
-          <input type="password" className="input" placeholder="password" />
+          <input 
+          type="text" 
+          className="input" 
+          placeholder="username" 
+          onChange={(e) => {
+            setUsername(e.target.value);
+            console.log('Username:', e.target.value);
+          }}/>
+          <input 
+          type="password" 
+          className="input" 
+          placeholder="password" 
+          onChange={(e) => setPassword(e.target.value)}/>
         </div>
-        <button className="submit-btn">Sign up</button>
+        <button className="submit-btn" onClick={handleSignUp}>Sign up</button>
       </div>
       <div className="login slide-up">
         <div className="center">
-          <h2 className="form-title" id="login" ref={loginBtnRef}><span>or</span>Log in</h2>
+          <h2 className="form-title" id="login" ref={loginBtnRef}><span>or</span>Sign in</h2>
           <div className="form-holder">
             <input
               type="text"
@@ -95,13 +133,13 @@ const Login = () => {
             />
             <input
               type="password"
-              className="input"
+              className="input" 
               placeholder="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)} // Corrigindo o valor do input
             />
           </div>
-          <button className="submit-btn" onClick={handleLogin}>Log in</button>
+          <button className="submit-btn" onClick={handleSignIn}>Sign in</button>
           {error && <p style={{ color: 'red' }}>{error}</p>} {/* Exibe erro se houver */}
         </div>
       </div>

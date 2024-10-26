@@ -6,18 +6,22 @@ from .services import openai_service
 
 chatgpt_service = openai_service.ChatGPTService()
 openai_service.ChatGPTService
+from rest_framework import serializers
+from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'password')
 
     def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password']
-        )
+        password = validated_data.pop('password', None)
+        if not password:
+            raise serializers.ValidationError({'password': 'A senha é obrigatória.'})
+
+        user = User(**validated_data)  # Usando o unpacking de dicionário
+        user.set_password(password)  # Setando a senha de forma segura
+        user.save()
         return user
  
 class ReminderSerializer(serializers.ModelSerializer):
