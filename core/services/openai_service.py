@@ -20,7 +20,7 @@ class ChatGPTService:
         print(f'teste: {OPENAI_API_KEY}')
         
 
-    def get_response(self,conversation_id, message=None, max_tokens=150):
+    def get_response(self,conversation_id, message=None, max_tokens=1000):
 
         from core.models import Interaction
 
@@ -48,9 +48,12 @@ class ChatGPTService:
 
         response = requests.post(self.api_url, headers=headers, json=data)
         response_data = response.json()
+        print(f'Opaaaa: {response}')
+        
         
 
         choices = response_data.get('choices', [])
+        print(f'qual a escolha?: {choices}')
         if choices:
             message_content = choices[0].get('message', {}).get('content', '')
             return message_content.strip() 

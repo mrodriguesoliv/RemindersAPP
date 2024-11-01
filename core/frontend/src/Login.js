@@ -106,12 +106,13 @@ const Login = () => {
         username: username,
         password: password,
       });
+
       
-      const token = response.data.token; // Altere 'accessToken' se necessário
       setToken(token);
-      localStorage.setItem('accessToken', token); // Armazena o token no localStorage
+      localStorage.setItem('accessToken', response.data.token);
+      console.log('Token armazenado no localStorage:', localStorage.getItem('accessToken'))
       localStorage.setItem('username', username);
-      navigate('/reminders.app/'); // Altere o caminho se necessário
+      navigate('/reminders.app/'); // Verifique se este caminho está correto
     } catch (error) {
       setError('Login failed. Please check your credentials.'); // Exibe a mensagem de erro
       console.error('Login failed', error);

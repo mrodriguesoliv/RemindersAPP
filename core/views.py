@@ -12,6 +12,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse, HttpRequest
 from oauth2_provider.views import TokenView
@@ -74,12 +75,17 @@ class ObtainJWTTokenView(APIView):
 
 
 class ReminderViewSet(viewsets.ModelViewSet):
-    queryset = Reminder.objects.all()
     serializer_class = ReminderSerializer
+    permission_classes = [IsAuthenticated]
+
+
+    def get_queryset(self):
+        print(f"Meu Usuário na View ReminderViewSet: {self.request.user}")
+        return Reminder.objects.filter(user=self.request.user)
 
 
 class ChatGPTView(APIView):
-    permission_classes = [AllowAny] 
+    permission_classes = [IsAuthenticated] 
     parser_classes = [JSONParser]
     
     def post(self, request):
@@ -102,6 +108,7 @@ class ChatGPTView(APIView):
                 try:
                     conversation = Conversation.objects.get(conversation_id=conversation_id, user=user)
                     print(f'Conversation found: {conversation}')
+                    print(f'User found testando: {user}')
                 except Conversation.DoesNotExist:
                     return Response({'error': 'Conversation not found'}, status=status.HTTP_404_NOT_FOUND)
             else:
@@ -114,11 +121,8 @@ class ChatGPTView(APIView):
             
             chatgpt_service = openai_service.ChatGPTService()
             response_text = chatgpt_service.get_response(conversation_id,message)
+            print(f'Resposta do ChatGPTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa: {response_text}') 
 
-            
-
-
-        
             try:
                 json_reminder = json.loads(response_text)
                 event = json_reminder['Evento']
@@ -136,28 +140,32 @@ class ChatGPTView(APIView):
                 interaction = Interaction.objects.create(
                     conversation=conversation,
                     prompt=message,
-                    response=response_text
+                    response=response_text,
+                    user=user
                 )
                 interaction.save()
 
                 reminder = Reminder.objects.create(
                     event=event,
                     description=description,
-                    location=location
+                    location=location,
+                    user=user
                 )
                 reminder.save()
 
-                
+            except json.JSONDecodeError:
+                print(f'Erro ao decodificar JSON: {response_text}')  # Adicione esta linha
+                return Response({'error': 'Resposta do ChatGPT não é um JSON válido.'}, status=status.HTTP_400_BAD_REQUEST)
+
             except KeyError as e:
-                print(f"Chave não encontrada: {e}")
+                print(f'Chave não encontrada na resposta: {e}')
+                return Response({'error': 'xDados do lembrete estão faltando.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    
-
-            
-        except:
-            return Response({'response': response_text, 'conversation_id': conversation_id}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(f'Ocorreu um erro: {e}')
+            return Response({'error': 'Erro interno ao processar a solicitação.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-        return Response({'response': response_text, 'conversation_id': conversation_id}, status=status.HTTP_200_OK)
+        
         
 
 class ChatGPTViewDetail(APIView):

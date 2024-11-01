@@ -18,7 +18,14 @@ const ReminderTable = () => {
             const apiUrl = process.env.REACT_APP_API_URL;
             console.log("API_URL", apiUrl);
 
-            const response = await axios.get(`${apiUrl}/reminders.app/`);
+            const token = localStorage.getItem('accessToken');
+            console.log("é pra cá que está vindo?", token);
+
+            const response = await axios.get(`${apiUrl}reminders.app/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
             setReminders(response.data);
             setLoading(false);
         } catch (error) {
@@ -45,7 +52,7 @@ const ReminderTable = () => {
                 const apiUrl = process.env.REACT_APP_API_URL;
                 console.log("API_URL", apiUrl);
 
-                const response = await axios.get(`${apiUrl}/reminders.app/`, {
+                const response = await axios.get(`${apiUrl}reminders.app/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -73,17 +80,20 @@ const ReminderTable = () => {
         setInputValue(e.target.value);
     };
 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!inputValue) return;
 
         const token = localStorage.getItem('accessToken');
+        console.log("Qual o Token???:", token);
 
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
             console.log("API_URL", apiUrl);
 
-            await axios.post(`${apiUrl}/v1.0/conversation/`, 
+            const response = await axios.post(`${apiUrl}v1.0/conversation/`, 
                 { message: inputValue, conversation_id: "1" }, 
                 {
                     headers: {
@@ -91,6 +101,10 @@ const ReminderTable = () => {
                     }
                 }
             );
+         
+            console.log("Resposta do servidor:", response.data);
+
+             // Após enviar a mensagem e criar o lembrete, buscar lembretes
             await fetchReminders();
             setInputValue('');
         } catch (error) {
