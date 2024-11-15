@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import re
 from datetime import datetime
-from core.models import Reminder
+from core.backend.models import Reminder
 import re
 import json
 from openai.types.chat.completion_create_params import ResponseFormat
@@ -22,7 +22,7 @@ class ChatGPTService:
 
     def get_response(self,conversation_id, message=None, max_tokens=1000):
 
-        from core.models import Interaction
+        from core.backend.models import Interaction
 
         interactions = Interaction.objects.filter(conversation_id=conversation_id).order_by('created_at')
 
@@ -64,7 +64,7 @@ class ChatGPTService:
 
     def get_response_detail(self,conversation_id, message=None, max_tokens=150):
 
-        from core.models import Interaction
+        from core.backend.models import Interaction
 
         interactions = Interaction.objects.filter(conversation_id=conversation_id).order_by('created_at')
 

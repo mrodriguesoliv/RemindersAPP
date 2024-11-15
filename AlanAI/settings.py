@@ -19,7 +19,7 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-REACT_APP_API_URL = os.getenv('REACT_APP_API_URL', 'http://127.0.0.1:8000')
+REACT_APP_API_URL = os.getenv('REACT_APP_API_URL', 'http://127.0.0.1:8002')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,8 +81,6 @@ OAUTH2_PROVIDER = {
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend'
 ]
-
-
 
 ROOT_URLCONF = 'AlanAI.urls'
 

@@ -15,16 +15,16 @@ services:
     
   backend:
     build:
-      context: ./  
+      context: .
+      dockerfile: ./core/backend/Dockerfile
     volumes:
-      - ./:/remindersapp/backend
+      - ./core/backend:/remindersapp/core/backend
     ports:
-      - '8000:8000'
+      - '8002:8002'
     depends_on:
       - postgres
     environment:
       - API_URL=${API_URL}
- 
 
   frontend:
     build:
