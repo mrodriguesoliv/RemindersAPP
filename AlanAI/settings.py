@@ -19,7 +19,7 @@ load_dotenv()
 
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-REACT_APP_API_URL = os.getenv('REACT_APP_API_URL', 'http://127.0.0.1:8002')
+REACT_APP_API_URL = os.getenv('REACT_APP_API_URL', 'http://127.0.0.1:8000')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,6 +36,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'backend', '127.0.0.1', '34.39.144.24']
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application definition
 
@@ -108,8 +109,12 @@ WSGI_APPLICATION = 'AlanAI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT'),
     }
 }
 

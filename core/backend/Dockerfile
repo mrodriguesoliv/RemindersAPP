@@ -26,8 +26,8 @@ COPY ./core/backend /remindersapp/core/backend
 COPY ./core/services /remindersapp/core/services
 COPY ./AlanAI /remindersapp/AlanAI
 
-# Expõe a porta 8002 (alterei para 8002, pois você usou essa porta no comando CMD)
-EXPOSE 8002
+# Expõe a porta 8000
+EXPOSE 8000
 
 # Comando para rodar o Django
-CMD ["python", "./core/backend/manage.py", "runserver", "0.0.0.0:8002"]
+CMD ["python", "./core/backend/manage.py", "runserver", "0.0.0.0:8000"]

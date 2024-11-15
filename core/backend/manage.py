@@ -3,6 +3,9 @@
 import os
 import sys
 
+# Adicionando o diretório raiz ao sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
 def initializedebugger():
     try:
         import debugpy
@@ -10,11 +13,9 @@ def initializedebugger():
     except Exception as except_:
         sys.stdout.write("Error starting debugger: %s\n" % except_)
 
-
-
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AlanAI.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AlanAI.settings')  # Aqui se refere ao settings.py na pasta AlanAI
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -26,7 +27,5 @@ def main():
     execute_from_command_line(sys.argv)
     initializedebugger()
 
-
 if __name__ == '__main__':
     main()
-
