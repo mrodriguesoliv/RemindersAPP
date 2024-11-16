@@ -19,8 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
         if not password:
             raise serializers.ValidationError({'password': 'A senha é obrigatória.'})
 
-        user = User(**validated_data)  # Usando o unpacking de dicionário
-        user.set_password(password)  # Setando a senha de forma segura
+        user = User(**validated_data)
+        user.set_password(password)
         user.save()
         return user
  

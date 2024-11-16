@@ -21,6 +21,9 @@ COPY ./requirements.txt .
 # Instala as dependências Python
 RUN pip install -r requirements.txt
 
+# Cria Aplicação
+RUN python core/backend/manage.py shell < create_application.py
+
 # Copia todo o código do projeto para o diretório de trabalho no container
 COPY ./core/backend /remindersapp/core/backend
 COPY ./core/services /remindersapp/core/services
