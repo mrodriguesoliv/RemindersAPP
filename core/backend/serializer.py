@@ -3,11 +3,8 @@ from rest_framework import serializers
 from .models import Reminder
 from core.services import openai_service
 
-
 chatgpt_service = openai_service.ChatGPTService()
 openai_service.ChatGPTService
-from rest_framework import serializers
-from django.contrib.auth.models import User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

@@ -3,8 +3,7 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Table, Container, Spinner, Alert } from 'react-bootstrap';
-import { Link,useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 
 const ReminderTable = () => {
     const [reminders, setReminders] = useState([]);
@@ -12,36 +11,11 @@ const ReminderTable = () => {
     const [error, setError] = useState(null);
     const [inputValue, setInputValue] = useState('');
     const [username, setUsername] = useState('');
-
-    const fetchReminders = async () => {
-        try {
-            const apiUrl = process.env.REACT_APP_API_URL;
-            console.log("API_URL", apiUrl);
-
-            const token = localStorage.getItem('accessToken');
-            console.log("é pra cá que está vindo?", token);
-
-            const response = await axios.get(`${apiUrl}reminders.app/`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-            setReminders(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Erro ao buscar dados:', error.message);
-            setError('Erro ao carregar lembretes. Tente novamente mais tarde.');
-            setLoading(false);
-        }
-    };
-
-
-    const navigate = useNavigate(); // Definindo o hook para redirecionamento
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
 
-        // Verifique se o token existe; caso contrário, redirecione para a página de login
         if (!token) {
             navigate('/reminders.login');
             return;
@@ -50,8 +24,6 @@ const ReminderTable = () => {
         const fetchReminders = async () => {
             try {
                 const apiUrl = process.env.REACT_APP_API_URL;
-                console.log("API_URL", apiUrl);
-
                 const response = await axios.get(`${apiUrl}reminders.app/`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -72,26 +44,37 @@ const ReminderTable = () => {
         setUsername(storedUsername || '');
     }, [navigate]);
 
+    const fetchReminders = async () => {
+        try {
+            const apiUrl = process.env.REACT_APP_API_URL;
+            const token = localStorage.getItem('accessToken');
 
-
-
+            const response = await axios.get(`${apiUrl}reminders.app/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+            setReminders(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Erro ao buscar dados:', error.message);
+            setError('Erro ao carregar lembretes. Tente novamente mais tarde.');
+            setLoading(false);
+        }
+    };
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
     };
-
-    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!inputValue) return;
 
         const token = localStorage.getItem('accessToken');
-        console.log("Qual o Token???:", token);
 
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
-            console.log("API_URL", apiUrl);
 
             const response = await axios.post(`${apiUrl}v1.0/conversation/`, 
                 { message: inputValue, conversation_id: "1" }, 
@@ -101,10 +84,7 @@ const ReminderTable = () => {
                     }
                 }
             );
-         
-            console.log("Resposta do servidor:", response.data);
 
-             // Após enviar a mensagem e criar o lembrete, buscar lembretes
             await fetchReminders();
             setInputValue('');
         } catch (error) {
@@ -120,12 +100,9 @@ const ReminderTable = () => {
 
     const handleRowClick = async (reminder) => {
         const token = localStorage.getItem('accessToken'); 
-        console.log('Evento clicado:', reminder.event);
-        console.log('token:', token);
-    
+
         try {
             const apiUrl = process.env.REACT_APP_API_URL;
-            console.log("API_URL", apiUrl);
 
             const response = await axios.post(`${apiUrl}/v1.0/conversation/detail`, { 
                 conversation_id: "1",

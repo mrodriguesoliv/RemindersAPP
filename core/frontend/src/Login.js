@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Para navegação após login
+import { useNavigate } from 'react-router-dom';
 import './LoginSignUp.css';
 
 const Login = () => {
   const loginBtnRef = useRef(null);
   const signupBtnRef = useRef(null);
-  const [username, setUsername] = useState(''); // Corrigindo a referência ao username
-  const [password, setPassword] = useState(''); // Corrigindo a referência ao password
-  const [error, setError] = useState(''); // Para exibir mensagens de erro
-  const [token, setToken] = useState(''); // Estado para o token
-  const navigate = useNavigate(); // Hook para navegação após o login
- 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [token, setToken] = useState('');
+  const navigate = useNavigate();
+
   const apiUrl = process.env.REACT_APP_API_URL;
   
   useEffect(() => {
@@ -29,7 +29,7 @@ const Login = () => {
         parent.classList.remove('slide-up');
       }
     };
-
+  
     const handleSignupClick = (e) => {
       let parent = e.target.parentNode;
       const isSlideUp = Array.from(parent.classList).includes("slide-up");
@@ -51,26 +51,19 @@ const Login = () => {
     };
   }, []);
 
-
-
-  // Função para tratar o evento de tecla pressionada
   const handleKeyPressSignUp = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Previne o comportamento padrão do formulário
-      handleSignUp(e); // Chama a função de login
+      e.preventDefault();
+      handleSignUp(e);
     }
   };
-  
 
-
-  // Função para tratar o evento de tecla pressionada
-  const handleKeyPressSignIn= (e) => {
+  const handleKeyPressSignIn = (e) => {
     if (e.key === 'Enter') {
-      e.preventDefault(); // Previne o comportamento padrão do formulário
-      handleSignIn(e); // Chama a função de login
+      e.preventDefault();
+      handleSignIn(e);
     }
   };
-
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -80,23 +73,18 @@ const Login = () => {
         return;
     }
 
-    console.log('Signing up with:', { username, password }); 
-
     try {
-        // Primeira requisição para o endpoint de signup
-        await axios.post('http://127.0.0.1:8000/v1.0/signup/', {
+        await axios.post(`${apiUrl}v1.0/signup/`, {
             username: username,
             password: password,
         });
 
-        // Chama o handleSignIn automaticamente após o signup bem-sucedido
         await handleSignIn(e);
     } catch (error) {
         setError('Signup failed. Please check your credentials.');
         console.error('Signup failed', error);  
     }
-};
-
+  };
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -107,36 +95,34 @@ const Login = () => {
         password: password,
       });
 
-      
-      setToken(token);
-      localStorage.setItem('accessToken', response.data.token);
-      console.log('Token armazenado no localStorage:', localStorage.getItem('accessToken'))
-      localStorage.setItem('username', username);
-      navigate('/reminders.app/');
+      const { access_token } = response.data;
+
+      localStorage.setItem('access_token', access_token);
+
+      console.log('Login successful! Access token:', access_token);
     } catch (error) {
-      setError('Login failed. Please check your credentials.');
-      console.error('Login failed', error);
+      console.error('Login error:', error.response.data);
     }
   };
 
-  
   return (
     <div className="form-structor">
       <div className="signup">
         <h2 className="form-title" id="signup" ref={signupBtnRef}><span>or</span>Sign up</h2>
         <div className="form-holder">
           <input 
-          type="text" 
-          className="input" 
-          placeholder="username" 
-          onChange={(e) => { setUsername(e.target.value);}}
-          /> 
+            type="text" 
+            className="input" 
+            placeholder="username" 
+            onChange={(e) => setUsername(e.target.value)}
+          />
           <input 
-          type="password" 
-          className="input" 
-          placeholder="password" 
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyUp={handleKeyPressSignUp}/>
+            type="password" 
+            className="input" 
+            placeholder="password" 
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyUp={handleKeyPressSignUp}
+          />
         </div>
         <button className="submit-btn" onClick={handleSignUp}>Sign up</button>
       </div>
@@ -149,19 +135,19 @@ const Login = () => {
               className="input"
               placeholder="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)} // Corrigindo o valor do input
+              onChange={(e) => setUsername(e.target.value)}
             />
             <input
               type="password"
               className="input" 
               placeholder="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)} // Corrigindo o valor do input
-              onKeyUp={handleKeyPressSignIn}  
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyUp={handleKeyPressSignIn}
             />
           </div>
           <button className="submit-btn" onClick={handleSignIn}>Sign in</button>
-          {error && <p style={{ color: 'red' }}>{error}</p>} {/* Exibe erro se houver */}
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
       </div>
     </div>
