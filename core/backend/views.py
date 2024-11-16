@@ -30,20 +30,6 @@ class CreateUserView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LoginView(APIView):
-    def post(self, request):
-        username = request.data.get('username')
-        password = request.data.get('password')
-        
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            refresh = RefreshToken.for_user(user)
-            access_token = str(refresh.access_token)
-            return Response({'access_token': access_token}, status=status.HTTP_200_OK)
-
-        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
-
 class ReminderViewSet(viewsets.ModelViewSet):
     serializer_class = ReminderSerializer
     permission_classes = [IsAuthenticated]

@@ -65,6 +65,11 @@ const Login = () => {
     }
   };
 
+  const getCSRFToken = () => {
+    const match = document.cookie.match(new RegExp('(^| )csrftoken=([^;]+)'));
+    return match ? match[2] : '';
+  };
+  
   const handleSignUp = async (e) => {
     e.preventDefault();
 
@@ -74,10 +79,23 @@ const Login = () => {
     }
 
     try {
-        await axios.post(`${apiUrl}v1.0/signup/`, {
-            username: username,
-            password: password,
-        });
+     
+        const csrfToken = getCSRFToken();
+
+        if (!csrfToken) {
+            setError('CSRF token not found.');
+            return;
+        }
+
+        await axios.post(
+            `${apiUrl}v1.0/signup/`,
+            { username, password },
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+            }
+        );
 
         await handleSignIn(e);
     } catch (error) {
@@ -88,22 +106,38 @@ const Login = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-
+    
     try {
-      const response = await axios.post(`${apiUrl}v1.0/api/token/`, {
-        username: username,
-        password: password,
-      });
+  
+      const csrfToken = getCSRFToken();
+
+      if (!csrfToken) {
+          console.error('CSRF token not found.');
+          return;
+      }
+
+      const response = await axios.post(
+          `${apiUrl}v1.0/api/token/`,
+          {
+              username: username,
+              password: password,
+          },
+          {
+              headers: {
+                  'X-CSRFToken': csrfToken,
+              },
+          }
+      );
 
       const { access_token } = response.data;
 
       localStorage.setItem('access_token', access_token);
 
       console.log('Login successful! Access token:', access_token);
-    } catch (error) {
-      console.error('Login error:', error.response.data);
-    }
-  };
+  } catch (error) {
+      console.error('Login error:', error.response?.data || error.message);
+  }
+};
 
   return (
     <div className="form-structor">

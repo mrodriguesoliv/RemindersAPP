@@ -29,6 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ndmc=ry@z#7#hp))$0c!d9(rgqdh%#adf-ue*nia2whr^as*&#'
 
+CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_HTTPONLY = True
+CSRF_USE_SESSIONS = False
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -37,7 +41,6 @@ ALLOWED_HOSTS = ['localhost', 'backend', '127.0.0.1', '34.39.144.24']
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
